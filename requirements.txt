@@ -1,0 +1,8 @@
+asgiref==3.8.1
+Django==4.2.20
+django-bootstrap5==22.2
+django-debug-toolbar==5.0.1
+pillow==11.1.0
+djangorestframework==3.15.2
+djangorestframework-simplejwt==5.5.0
+djoser==2.3.1

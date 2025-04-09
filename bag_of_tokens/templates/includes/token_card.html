@@ -1,0 +1,5 @@
+{% load static %}
+<div>
+  <img src="{% static token.token.image %}">
+  <a href="{% url 'bag:delete' token.id %}"> Удалить жетон </a>
+</div>

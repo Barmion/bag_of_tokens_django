@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  Страница пользователя {{ object.username }}
+{% endblock %}
+{% block content %}
+  <h1 class="mb-5 text-center ">Страница пользователя {{ object.username }}</h1>
+  <small>
+    <ul class="list-group list-group-horizontal justify-content-center mb-3">
+      <li class="list-group-item text-muted">Имя пользователя: {% if object.get_full_name %}{{ object.get_full_name }}{% else %}не указано{% endif %}</li>
+      <li class="list-group-item text-muted">Регистрация: {{ object.date_joined }}</li>
+      <li class="list-group-item text-muted">Телеграм id: {% if object.telegram_id %}{{ object.telegram_id }}{% else %}не указано{% endif %}</li>
+      {% comment %} <li class="list-group-item text-muted">Роль: {% if object.is_staff %}Админ{% else %}Пользователь{% endif %}</li> {% endcomment %}
+    </ul>
+    <ul class="list-group list-group-horizontal justify-content-center">
+      <a class="btn btn-sm text-muted" href="{% url 'users:edit_profile' %}">Редактировать профиль</a>
+      <a class="btn btn-sm text-muted" href="{% url 'password_change' %}">Изменить пароль</a>
+    </ul>
+  </small>
+   <br>
+  <h3 class="mb-5 text-center">Ваш мешок</h3>
+  <h3 class="mb-5 text-center"> <a href="{% url 'bag:random' %}"> Достать жетон </a> </h3>
+  <div style="display: inline-block">
+    {% if tokens %}
+      {% for token in tokens %}
+        {% include "includes/Token_card.html" %}
+      {% endfor %}
+    {% else %}
+      Мешок пуст </p>
+    {% endif %}
+    <a href="{% url 'bag:add' %}">
+      <img src="{% static 'img/new.png' %}" title="Добавить новый жетон">
+    </a>
+  </div>
+{% endblock %}

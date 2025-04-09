@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% block title %}
+  Случайный жетон
+{% endblock %}
+{% block content %}
+{{ object.token.char }}
+ <article><img src="{{ object.token.image }}"> </article>
+ <article><a href="{% url 'bag:random' %}"> Достать жетон </a></article>
+{% endblock %}
