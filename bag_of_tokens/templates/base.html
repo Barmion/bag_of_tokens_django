@@ -3,13 +3,12 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
-    {% comment %} <meta charset="utf-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% load static %}
-    <link rel="icon" href="{% static 'img/fav/favicon.ico' %}" type="image">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/fav/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/fav/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/fav/favicon-16x16.png' %}"> {% endcomment %}
+    <link rel="icon" type="image/png" href="{% static 'img/fav/favicon-96x96.png' %}" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/fav/favicon.svg' %}" />
+    <link rel="shortcut icon" href="{% static 'img/fav/favicon.ico' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/fav/apple-touch-icon.png' %}"/>  
     <title>
       {% block title %}{% endblock %}
     </title>

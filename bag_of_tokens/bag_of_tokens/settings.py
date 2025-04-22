@@ -1,10 +1,16 @@
+import os
+
+from dotenv import load_dotenv
+
 from pathlib import Path
 
 from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-q2lj0dat8))o6gvda-l$0)15+jfw5sf*2!iapyx-jw8dq$vplp'
+load_dotenv()
+
+SECRET_KEY = os.getenv('SECRET_KEY_DJANGO')
 
 DEBUG = True
 
@@ -25,6 +31,7 @@ INSTALLED_APPS = [
     'bag.apps.BagConfig',
     'api.apps.ApiConfig',
     'users.apps.UsersConfig',
+    'statistic.apps.StatisticConfig',
 ]
 
 MIDDLEWARE = [
@@ -108,7 +115,9 @@ MEDIA_URL = '/media/'
 
 TEMPLATES_DIR = BASE_DIR / 'templates'
 
-LOGIN_REDIRECT_URL = 'users:profile'
+LOGIN_URL = 'login'
+
+LOGIN_REDIRECT_URL = 'about'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

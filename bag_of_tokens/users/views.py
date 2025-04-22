@@ -2,13 +2,14 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from bag.models import Bag
 
 User = get_user_model()
 
 
-class ProfileListView(DetailView):
+class ProfileListView(LoginRequiredMixin, DetailView):
     model = User
     fields = ('username', 'first_name', 'last_name', 'email', 'telegram_id',)
     template_name = 'user/profile.html'
@@ -22,7 +23,7 @@ class ProfileListView(DetailView):
         return self.request.user
 
 
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     fields = ('username', 'first_name', 'last_name', 'email', 'telegram_id',)
     template_name = 'user/update_profile.html'

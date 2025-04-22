@@ -1,7 +1,10 @@
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
+from requests import Response
 
 from bag.models import Bag
+from statistic.models import Statistic_1, Statistic_2
+from statistic.views import stat_1_update, stat_2_update
 
 from .serializers import BagBotSerializer, BagSerializer
 
@@ -13,7 +16,7 @@ class BagListViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.is_telegram_bot:
             return Bag.objects.filter(
-                owner__telegram_id=self.request.kwargs.get('telegram_id')
+                owner__telegram_id=self.kwargs.get('owner')
             )
         return Bag.objects.filter(owner=self.request.user)
 
@@ -28,3 +31,10 @@ class BagListViewSet(viewsets.ModelViewSet):
         return self.get_queryset().filter(
             token__char=self.request.data.get('token')
         ).first()
+
+    # def retrieve(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     # stat_1_update(owner=request.user, token=instance)
+    #     # stat_2_update(owner=request.user, token=instance.name)
+    #     serializer = self.get_serializer(instance)
+    #     return Response(serializer.data)

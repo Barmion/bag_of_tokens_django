@@ -22,6 +22,7 @@ class Token(models.Model):
     image = models.ImageField(
         upload_to='tokens',
         verbose_name='Изображение',
+        blank=True
     )
     ordering = models.PositiveSmallIntegerField(
         verbose_name='Порядок выдачи',
