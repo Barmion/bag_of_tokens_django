@@ -10,7 +10,6 @@
       <li class="list-group-item text-muted">Имя пользователя: {% if object.get_full_name %}{{ object.get_full_name }}{% else %}не указано{% endif %}</li>
       <li class="list-group-item text-muted">Регистрация: {{ object.date_joined }}</li>
       <li class="list-group-item text-muted">Телеграм id: {% if object.telegram_id %}{{ object.telegram_id }}{% else %}не указано{% endif %}</li>
-      {% comment %} <li class="list-group-item text-muted">Роль: {% if object.is_staff %}Админ{% else %}Пользователь{% endif %}</li> {% endcomment %}
     </ul>
     <ul class="list-group list-group-horizontal justify-content-center">
       <a class="btn btn-sm text-muted" href="{% url 'users:edit_profile' %}">Редактировать профиль</a>

@@ -10,5 +10,3 @@ User = get_user_model()
 class MyUserAdmin(admin.ModelAdmin):
     list_display = ('username',)
     empty_value_display = '-пусто-'
-
-

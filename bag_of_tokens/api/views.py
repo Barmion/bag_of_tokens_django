@@ -1,10 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
-from requests import Response
 
 from bag.models import Bag
-from statistic.models import Statistic_1, Statistic_2
-from statistic.views import stat_1_update, stat_2_update
+# from statistic.views import stat_1_update, stat_2_update
 
 from .serializers import BagBotSerializer, BagSerializer
 
@@ -27,7 +25,7 @@ class BagListViewSet(viewsets.ModelViewSet):
 
     def get_object(self):
         if self.action == 'retrieve':
-            return self.get_queryset().order_by('?').first()  # Get random token
+            return self.get_queryset().order_by('?').first()
         return self.get_queryset().filter(
             token__char=self.request.data.get('token')
         ).first()

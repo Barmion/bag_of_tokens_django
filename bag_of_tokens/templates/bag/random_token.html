@@ -5,7 +5,6 @@
   Случайный жетон
 {% endblock %}
 {% block content %}
-{{ object.token.char }}
  <article><img src="{% static object.token.image %}"> </article>
  <article><a href="{% url 'bag:random' %}"> Достать жетон </a></article>
 {% endblock %}

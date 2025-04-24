@@ -3,8 +3,12 @@ from django.db import models
 
 
 class MyUser(AbstractUser):
+    email = models.EmailField(
+        verbose_name='Электронная почта',
+        blank=True,
+        unique=True)
     telegram_id = models.CharField(
-        verbose_name='телеграм id',
+        verbose_name='Телеграм id',
         blank=True,
         default='',
         max_length=20

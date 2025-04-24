@@ -6,23 +6,16 @@ from pytest_django.asserts import assertRedirects
 
 
 @pytest.mark.parametrize(
-    'name',
-    ('about', 'login', 'registration')
+    'name, method',
+    (('about', 'get'),
+     ('login', 'get'),
+     ('registration', 'get'),
+     ('logout', 'post'))
 )
-def test_pages_availability_for_anonymous_user(client, name):
+def test_pages_availability_for_anonymous_user(client, name, method):
     """Страница доступна для неавторизованного пользователя."""
     url = reverse(name)
-    response = client.get(url)
-    assert response.status_code == HTTPStatus.OK, (
-        f'Убедитесь, что страница {url} доступна '
-        'для неавторизованного пользователя.'
-    )
-
-
-def test_logout_availability_for_anonymous_user(client):
-    """Страница доступна для неавторизованного пользователя."""
-    url = reverse('logout')
-    response = client.post(url)
+    response = getattr(client, method)(url)
     assert response.status_code == HTTPStatus.OK, (
         f'Убедитесь, что страница {url} доступна '
         'для неавторизованного пользователя.'
@@ -37,8 +30,7 @@ def test_logout_availability_for_anonymous_user(client):
         ('users:edit_profile', None),
         ('bag:add', None),
         ('bag:delete', pytest.lazy_fixture('token_in_bag_id_for_args')),
-        ('bag:random', None)
-    ),
+        ('bag:random', None)),
 )
 def test_redirects(client, name, args):
     """Перенаправление неавторизованных пользователей на страницу логина."""

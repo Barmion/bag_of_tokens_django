@@ -2,17 +2,21 @@ import pytest
 from django.test.client import Client
 
 from bag.models import Bag, Token
-from bag.pytest_tests.data import TOKENS
+from pytest_tests_bag.data import TOKENS
 
 
 @pytest.fixture
 def owner(django_user_model):
-    return django_user_model.objects.create(username='Владелец')
+    return django_user_model.objects.create(username='owner',
+                                            password='test',
+                                            email='owner@test.com')
 
 
 @pytest.fixture
 def not_owner(django_user_model):
-    return django_user_model.objects.create(username='Не владелец')
+    return django_user_model.objects.create(username='notowner',
+                                            password='test',
+                                            email='notowner@test.com')
 
 
 @pytest.fixture
@@ -69,3 +73,9 @@ def random_token(create_tokens):
 def create_bag(random_token, owner):
     for _ in range(10):
         Bag.objects.create(owner=owner, token=random_token)
+
+
+# @pytest.fixture
+# def get_jwt(owner_client):
+#     url = reverse('api:jwt-create')
+#     owner_client.post(url, )
