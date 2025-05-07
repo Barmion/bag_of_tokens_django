@@ -1,13 +1,13 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404, get_list_or_404
+from django.shortcuts import get_list_or_404
 from rest_framework import viewsets
+from rest_framework.response import Response
 
 from bag.models import Bag
+from statistic.views import stat_2_update
+from statistic.models import Statistic_2
 
-from .serializers import BagBotSerializer, BagSerializer
-
-# from statistic.views import stat_1_update, stat_2_update
-
+from .serializers import BagBotSerializer, BagSerializer, StatisticSerializer
 
 User = get_user_model()
 
@@ -34,9 +34,15 @@ class BagListViewSet(viewsets.ModelViewSet):
             token__char=self.request.data.get('token')
         )[0]
 
-    # def retrieve(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     # stat_1_update(owner=request.user, token=instance)
-    #     # stat_2_update(owner=request.user, token=instance.name)
-    #     serializer = self.get_serializer(instance)
-    #     return Response(serializer.data)
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        stat_2_update(owner=request.user, token=instance.token.name)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+
+class StatisticViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = StatisticSerializer
+
+    def get_object(self):
+        return Statistic_2.objects.get_or_create(owner=self.request.user)[0]
