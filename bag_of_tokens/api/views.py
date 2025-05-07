@@ -1,10 +1,13 @@
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework import viewsets
 
 from bag.models import Bag
-# from statistic.views import stat_1_update, stat_2_update
 
 from .serializers import BagBotSerializer, BagSerializer
+
+# from statistic.views import stat_1_update, stat_2_update
+
 
 User = get_user_model()
 
@@ -26,9 +29,10 @@ class BagListViewSet(viewsets.ModelViewSet):
     def get_object(self):
         if self.action == 'retrieve':
             return self.get_queryset().order_by('?').first()
-        return self.get_queryset().filter(
+        return get_list_or_404(
+            self.get_queryset(),
             token__char=self.request.data.get('token')
-        ).first()
+        )[0]
 
     # def retrieve(self, request, *args, **kwargs):
     #     instance = self.get_object()

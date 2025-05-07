@@ -1,6 +1,7 @@
 from django.urls import include, path
 
 from api.views import BagListViewSet
+import djoser.urls.jwt
 
 app_name = 'api_v1'
 

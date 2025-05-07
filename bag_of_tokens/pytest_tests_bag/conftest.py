@@ -1,5 +1,7 @@
 import pytest
 from django.test.client import Client
+from rest_framework.test import APIClient
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from bag.models import Bag, Token
 from pytest_tests_bag.data import TOKENS
@@ -60,6 +62,11 @@ def token_in_bag(token, owner):
 
 
 @pytest.fixture
+def token_in_bag_char(token_in_bag):
+    return token_in_bag.token.char
+
+
+@pytest.fixture
 def token_in_bag_id_for_args(token_in_bag):
     return (token_in_bag.id,)
 
@@ -70,12 +77,19 @@ def random_token(create_tokens):
 
 
 @pytest.fixture
+def random_token_char(random_token):
+    return random_token.char
+
+
+@pytest.fixture
 def create_bag(random_token, owner):
     for _ in range(10):
         Bag.objects.create(owner=owner, token=random_token)
 
 
-# @pytest.fixture
-# def get_jwt(owner_client):
-#     url = reverse('api:jwt-create')
-#     owner_client.post(url, )
+@pytest.fixture
+def owner_client_api(owner):
+    client = APIClient()
+    token = RefreshToken.for_user(owner).access_token
+    client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+    return client
