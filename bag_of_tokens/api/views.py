@@ -17,7 +17,7 @@ class BagListViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.is_telegram_bot:
             return Bag.objects.filter(
-                owner__telegram_id=self.kwargs.get('owner')
+                owner__telegram_id=self.request.data.get('owner')
             )
         return Bag.objects.filter(owner=self.request.user)
 
@@ -28,7 +28,9 @@ class BagListViewSet(viewsets.ModelViewSet):
 
     def get_object(self):
         if self.action == 'retrieve':
-            return self.get_queryset().order_by('?').first()
+            return get_list_or_404(
+                self.get_queryset().order_by('?'),
+            )[0]
         return get_list_or_404(
             self.get_queryset(),
             token__char=self.request.data.get('token')
@@ -36,7 +38,13 @@ class BagListViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        stat_2_update(owner=request.user, token=instance.token.name)
+        if self.request.user.is_telegram_bot:
+            owner = User.objects.get(
+                telegram_id=self.request.data.get('owner'),
+            )
+        else:
+            owner = request.user
+        stat_2_update(owner=owner, token=instance.token.name)
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 

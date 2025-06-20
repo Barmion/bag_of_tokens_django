@@ -11,6 +11,7 @@ class UserRegistrationForm(UserCreationForm):
         fields = (
             'username',
             'email',
+            'telegram_id',
             'password1',
             'password2',
         )

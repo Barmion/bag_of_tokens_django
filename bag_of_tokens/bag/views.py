@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView
+from django.shortcuts import get_list_or_404
 
 from statistic.views import stat_1_update, stat_2_update
 
@@ -37,5 +38,7 @@ class RandomToken(LoginRequiredMixin, DetailView):
         return self.render_to_response(context)
 
     def get_object(self):
-        return Bag.objects.filter(
-            owner=self.request.user).order_by('?').first()
+        return get_list_or_404(
+            Bag.objects.filter(
+                owner=self.request.user).order_by('?'),
+        )[0]

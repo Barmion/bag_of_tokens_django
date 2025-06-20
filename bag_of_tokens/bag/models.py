@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from translation.tokens_translation import TOKENS
+
 User = get_user_model()
 
 
@@ -35,7 +37,7 @@ class Token(models.Model):
         ordering = ('ordering',)
 
     def __str__(self):
-        return self.name
+        return TOKENS.get('Russian').get(self.name)
 
 
 class Bag(models.Model):
