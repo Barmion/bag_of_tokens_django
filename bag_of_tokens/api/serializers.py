@@ -17,23 +17,18 @@ class BagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bag
-        fields = ('token', 'owner')
+        fields = (
+            'owner',
+            'token',
+        )
 
 
-class BagBotSerializer(serializers.ModelSerializer):
+class BagBotSerializer(BagSerializer):
     owner = serializers.SlugRelatedField(
         'telegram_id',
         read_only=False,
-        queryset=User.objects.all())
-    token = serializers.SlugRelatedField(
-        'char',
-        read_only=False,
-        queryset=Token.objects.all(),
+        queryset=User.objects.all(),
     )
-
-    class Meta:
-        model = Bag
-        fields = ('owner', 'token',)
 
 
 class StatisticSerializer(serializers.ModelSerializer):
@@ -42,7 +37,6 @@ class StatisticSerializer(serializers.ModelSerializer):
     class Meta:
         model = Statistic_2
         fields = (
-            'owner',
             'star_tokens',
             'plus_one_tokens',
             'zero_tokens',
@@ -60,3 +54,11 @@ class StatisticSerializer(serializers.ModelSerializer):
             'skull_tokens',
             'tablet_tokens',
         )
+
+
+class StatisticBotSerializer(StatisticSerializer):
+    owner = serializers.SlugRelatedField(
+        'telegram_id',
+        read_only=False,
+        queryset=User.objects.all(),
+    )
